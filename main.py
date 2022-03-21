@@ -1,18 +1,11 @@
-import config
-from aiogram import Bot, types
-from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
-from datetime import datetime
+from create_bot import dp
+from handlers import personal_actions
+from handlers import constants
 
-bot = Bot(token=config.BOT_TOKEN)
-dp = Dispatcher(bot)
+async def on_start(_):
+	print(constants.cons_on_start)
+personal_actions.register_hndlr_clnt(dp)
 
-from db import BotDB
-BotDB = BotDB('assistent.db')
-
-@dp.message_handler()
-async def echo_send(message : types.message):
-	# await message.answer(message.text)
-	await message.answer(datetime.today())
-
-executor.start_polling(dp)
+if __name__ == '__main__':
+	executor.start_polling(dp, skip_updates=True, on_startup=on_start)
