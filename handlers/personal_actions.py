@@ -1,10 +1,7 @@
-from email import message
-from re import I
 from aiogram import  types, Dispatcher
 from create_bot import dp, bot
 from handlers import constants
 from keyboards import percon_kb
-
 
 # @dp.message_handler()
 async def cmd_start(message : types.message):
@@ -13,6 +10,7 @@ async def cmd_start(message : types.message):
 async def cmd_timetable(message : types.message):
     # await message.delete()
 	await bot.send_message(message.from_user.id, constants.cons_msg_timetable)
+
 
 
 def register_hndlr_clnt(dp : Dispatcher):

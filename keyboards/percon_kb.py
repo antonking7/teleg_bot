@@ -1,8 +1,8 @@
-from pickle import TRUE
-from re import I
-from tkinter import Button
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove, InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram import  types , Dispatcher
 from handlers import constants
+
+
 
 b_timetable = KeyboardButton(constants.button_timetable)
 b_edit_timetable = KeyboardButton(constants.button_edit_timetable)
