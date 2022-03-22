@@ -2,6 +2,7 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup,CallbackQue
 from aiogram import  Dispatcher
 from aiogram.utils.callback_data import CallbackData
 from create_bot import dp, bot
+from handlers import constants
 import datetime
 import calendar
 import locale 
@@ -51,30 +52,6 @@ def create_calendar(year=None, month=None):
 
     return keyboards   
 
-# def process_calendar_selection():
-#     ret_data = (True,None)
-    # curr = datetime.datetime(int(callback_data['year']), int(callback_data['month']), 1)
-    # if callback_data['_action'] == "IGNORE":
-    #     bot.answer_callback_query(callback_query_id= callback.from_user.id)
-    # elif callback_data['_action'] == "DAY":
-         
-    # elif action == "PREV-MONTH":
-    #     pre = curr - datetime.timedelta(days=1)
-    #     bot.edit_message_text(text=query.message.text,
-    #         chat_id=query.message.chat_id,
-    #         message_id=query.message.message_id,
-    #         reply_markup=create_calendar(int(pre.year),int(pre.month)))
-    # elif action == "NEXT-MONTH":
-    #     ne = curr + datetime.timedelta(days=31)
-    #     bot.edit_message_text(text=query.message.text,
-    #         chat_id=query.message.chat_id,
-    #         message_id=query.message.message_id,
-    #         reply_markup=create_calendar(int(ne.year),int(ne.month)))
-    # else:
-    #     bot.answer_callback_query(callback_query_id= query.id,text="Something went wrong!")
-    #     # UNKNOWN
-    # return ret_data
-
 
 
 #Ловим ответ от календаря и обрабатываем его
@@ -83,40 +60,38 @@ async def vote_up_cb_handler(query: CallbackQuery, callback_data: dict):
     logging.info(callback_data)
     # await query.message.edit_text("Итого: ")
     await query.answer()
+#Ловим ответ от календаря и обрабатываем его
+@dp.callback_query_handler(callback_data_calc.filter(_action="PREV-MONTH"))
+async def vote_up_cb_handler(query: CallbackQuery, callback_data: dict):
+    logging.info(callback_data)
+    curr = datetime.datetime(int(callback_data["year"]), int(callback_data["month"]), 1)
+    pre = curr - datetime.timedelta(days=1)
+    await query.message.edit_text(constants.cons_msg_load_date,reply_markup=create_calendar(int(pre.year),int(pre.month)))
+    await query.answer()
+
+@dp.callback_query_handler(callback_data_calc.filter(_action="NEXT-MONTH"))
+async def vote_up_cb_handler(query: CallbackQuery, callback_data: dict):
+    logging.info(callback_data)
+    curr = datetime.datetime(int(callback_data["year"]), int(callback_data["month"]), 1)
+    ne = curr + datetime.timedelta(days=31)
+    await query.message.edit_text(constants.cons_msg_load_date,reply_markup=create_calendar(int(ne.year),int(ne.month)))
+    # await query.message.edit_text("Итого: ")
+    await query.answer()
 
 @dp.callback_query_handler(callback_data_calc.filter(_action="DAY"))
 async def vote_up_cb_handler(query: CallbackQuery, callback_data: dict):
     logging.info(callback_data)
     curr = datetime.datetime(int(callback_data["year"]), int(callback_data["month"]), int(callback_data["day"]))
-    await query.message.edit_text("Вы выбрали %s:" % (curr.strftime("%d/%m/%Y")))
-    await query.answer('ПОЙМАЛ КНОПКУ', show_alert=True)
+    await query.message.edit_text("Вы выбрали %s" % (curr.strftime("%d.%m.%Y")))
+    await query.answer()
 
 
-@dp.callback_query_handler(callback_data_calc.filter(_action=["PREV-MONTH","DAY","NEXT-MONTH"]))
+@dp.callback_query_handler(callback_data_calc.filter(_action="DAY"))
 async def vote_up_cb_handler(query: CallbackQuery, callback_data: dict):
     logging.info(callback_data)
     curr = datetime.datetime(int(callback_data["year"]), int(callback_data["month"]), 1)
     await query.answer('ПОЙМАЛ КНОПКУ', show_alert=True)
-    # await bot.edit_message_text(f'You voted up! Now you have votes.',
-    #                             query.from_user.id,
-    #                             query.message.message_id)
-# # @dp.callback_query_handler(callback_data_calc.filter(_action=["IGNORE", "NEXT-MONT","DAY","NEXT-MONTH"]))
-# async def call_back(callback : CallbackQuery, callback_data: dict):
-#     # selected,date = process_calendar_selection()
-#     logging.info(callback_data)
-#     await bot.edit_message_text(f'You voted up! Now you have  votes.',
-#                                 callback_data.from_user.id,
-#                                 callback_data.message.message_id)
-    # if selected:
-    # await bot.edit_message_text(f"Вы выбрали %s  {callback_data['day']}  '/' {callback_data['month']}  '/' {callback_data['year']}",
-    #                             callback_data.from_user.id,
-    #                             callback_data.message.message_id,
-    #                             reply_markup=ReplyKeyboardRemove())
-    # await bot.send_message(chat_id=callback.from_user.id,text=f"Вы выбрали %s  {callback_data['day']}  '/' {callback_data['month']}  '/' {callback_data['year']}", reply_markup=ReplyKeyboardRemove())
-    # await bot.answer_callback_query()
-    # else:
-        #  bot.answer_callback_query(callback_query_id=callback.from_user.id, show_alert=True)
-   
+     
 
 
 def register_callback_inkeybtn(dp : Dispatcher):
