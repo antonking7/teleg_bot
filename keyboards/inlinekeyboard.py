@@ -78,21 +78,14 @@ async def vote_up_cb_handler(query: CallbackQuery, callback_data: dict):
     # await query.message.edit_text("Итого: ")
     await query.answer()
 
-@dp.callback_query_handler(callback_data_calc.filter(_action="DAY"))
-async def vote_up_cb_handler(query: CallbackQuery, callback_data: dict):
-    logging.info(callback_data)
-    curr = datetime.datetime(int(callback_data["year"]), int(callback_data["month"]), int(callback_data["day"]))
-    await query.message.edit_text("Вы выбрали %s" % (curr.strftime("%d.%m.%Y")))
-    await query.answer()
 
-
-@dp.callback_query_handler(callback_data_calc.filter(_action="DAY"))
-async def vote_up_cb_handler(query: CallbackQuery, callback_data: dict):
-    logging.info(callback_data)
-    curr = datetime.datetime(int(callback_data["year"]), int(callback_data["month"]), 1)
-    await query.answer('ПОЙМАЛ КНОПКУ', show_alert=True)
+# @dp.callback_query_handler(callback_data_calc.filter(_action="DAY"))
+# async def vote_up_cb_handler(query: CallbackQuery, callback_data: dict):
+#     logging.info(callback_data)
+#     curr = datetime.datetime(int(callback_data["year"]), int(callback_data["month"]), 1)
+#     await query.answer('ПОЙМАЛ КНОПКУ', show_alert=True)
      
 
 
-def register_callback_inkeybtn(dp : Dispatcher):
-    dp.callback_query_handler(vote_up_cb_handler, callback_data_calc.filter(_action=["IGNORE", "PREV-MONTHT","DAY","NEXT-MONTH"]))
+# def register_callback_inkeybtn(dp : Dispatcher):
+#     dp.callback_query_handler(vote_up_cb_handler, callback_data_calc.filter(_action=["IGNORE", "PREV-MONTHT","DAY","NEXT-MONTH"]))

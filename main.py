@@ -9,7 +9,7 @@ async def on_start(_):
 
 personal_actions.register_hndlr_clnt(dp)
 plan.register_hndlr_plans(dp)
-inlinekeyboard.register_callback_inkeybtn(dp)
+# inlinekeyboard.register_callback_inkeybtn(dp)
 
 
 

@@ -8,9 +8,7 @@ import config
 import logging
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup,CallbackQuery
 from aiogram.utils.callback_data import CallbackData
-import datetime
-import calendar
-import locale 
+
 
 logging.basicConfig(level=logging.INFO)
 storage = MemoryStorage()
