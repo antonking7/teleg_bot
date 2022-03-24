@@ -92,8 +92,8 @@ async def cancel_handler(message : types.Message, state: FSMContext):
 #Регистрируем хендлеры
 def register_hndlr_plans(dp : Dispatcher):
     # dp.callback_query_handler(call_back())
-    dp.register_message_handler(cmd_load, commands=constants.cons_comand_load, state=None)
-    dp.register_message_handler(cancel_handler, state="*", commands=constants.cons_comand_canсel)
+    dp.register_message_handler(cmd_load, Text(equals=constants.cons_comand_load), state=None)
+    dp.register_message_handler(cancel_handler, state="*", commands=constants.cons_comand_canсel) #Text(equals=constants.cons_comand_load) cons_comand_load
     dp.register_message_handler(cancel_handler, Text(equals=constants.cons_comand_canсel, ignore_case=True), state= "*")
     dp.register_message_handler(load_date, state=FSMtimetable.dateplans)
     dp.register_message_handler(load_time, state=FSMtimetable.timeplans)

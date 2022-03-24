@@ -33,18 +33,19 @@ def get_data(url):
 
  
     
-    with open("newsliks_dict.json", "w") as file:
+    with open("news_liks_dict.json", "w") as file:
         json.dump(news_dict, file, indent=4, ensure_ascii=False)
     
     result_data = []   
           
-    with open("news_dict.json") as file:
+    with open("news_liks_dict.json") as file:
         news_dict = json.load(file)
     
     discr_dict = []
     update_time = datetime.datetime.now()
     discr_str = ""
     for n_url in news_dict[0:10]:
+        discr_str = ""
         r = s.get(url=n_url.get("url"), headers=headers)
         soup = BS(r.text, "lxml")
         news = soup.findAll(class_="mg-story news-story mg-grid__item") 
@@ -57,22 +58,24 @@ def get_data(url):
                 info_span = info.find("span")
                 discr_str += info_span.text
             
-    result_data.append(
-        {   
-           "update_time": str(update_time),
-            "url": info_url,
-            "title": info_title,
-            "discr": discr_str
-        }
-        )
+        result_data.append(
+            {   
+            "update_time": str(update_time),
+                "url": info_url,
+                "title": info_title,
+                "discr": discr_str
+            }
+            )
     print(result_data)
-    with open("news_dict1.json", "w") as file:
-        json.dump(result_data, file, indent=4, ensure_ascii=False)
+    if result_data:
+        with open("news_dict.json", "w") as file:
+            json.dump(result_data, file, indent=4, ensure_ascii=False)
 
 
-def main():
-    get_data("https://yandex.ru/news?from=tabbar")
+def gest_scrab_news():
+    # get_data("https://yandex.ru/news?from=tabbar")
+    get_data("https://yandex.ru/news/rubric/auto")
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
