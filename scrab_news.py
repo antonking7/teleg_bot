@@ -4,15 +4,19 @@ import requests
 import datetime
 import undetected_chromedriver as uc
 import time
-
+    
 def get_data(url):
-
-    driver = uc.Chrome()  
+    options = uc.ChromeOptions()
+    options.user_data_dir = "c:\\temp\\profile"
+    options.add_argument('--user-data-dir=c:\\temp\\profile2')
+    options.add_argument('--no-first-run --no-service-autorun --password-store=basic')
+    
+    driver = uc.Chrome(options=options)  
     driver.get(url)
     time.sleep(4)
     html = driver.page_source
-    driver.close()
-    driver.quit()     
+    driver.close
+  
     soup = BS(html, "lxml")
     news_card = soup.findAll("a", class_="mg-card__link")
     
@@ -43,7 +47,6 @@ def get_data(url):
     update_time = datetime.datetime.now()
     for n_url in news_dict[0:10]:
         discr_str= ""
-        driver = uc.Chrome()  
         driver.get(n_url.get("url"))
         time.sleep(5)
         r = driver.page_source
@@ -67,13 +70,12 @@ def get_data(url):
                 "discr": discr_str
             }
             )
-        driver.close()
-        driver.quit()
+        driver.close
         print(result_data)
     with open("news_dict.json", "w") as file:
         json.dump(result_data, file, indent=4, ensure_ascii=False)
 
-
+    driver.quit()
 def gest_scrab_news():
     # get_data("https://yandex.ru/news?from=tabbar")
      get_data("https://yandex.ru/news/rubric/auto")

@@ -59,8 +59,8 @@ async def cmd_get_news(message : types.message):
 #Проверяем время обновления новостей, если прошло более 10 минут, вызываем парсер и обновляем json файл
         now = datetime.now()
         update_time = datetime.strptime(news_dict[0].get("update_time"), "%Y-%m-%d %H:%M:%S.%f")
-        if now - update_time > timedelta(minutes=10):
-            logging.info("update_time больше 10 минут и вызов gest_scrab_news()")
+        if now - update_time > timedelta(minutes=30):
+            logging.info("update_time больше 30 минут и вызов gest_scrab_news()")
             gest_scrab_news()
             time.sleep(5)
             try:
