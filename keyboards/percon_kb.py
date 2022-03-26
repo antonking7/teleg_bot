@@ -1,5 +1,4 @@
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
-from aiogram import  types , Dispatcher
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from handlers import constants
 
 
